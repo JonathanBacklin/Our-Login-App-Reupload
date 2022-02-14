@@ -1,0 +1,64 @@
+<%- include ('./partials/header') %>
+<html>
+  <div id="welcome">
+<h1>Welcome!</h1>
+<br>
+<p>Create an account or login</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<button id="registerBtn" class="btn btn-primary btn-block mb-2" disabled>
+  <a style="color:white;" href="/users/register"> Register</a> </button> 
+<button id="loginBtn" disabled><a style="color:white;" href="/users/login">Login</a></button> 
+</div>
+
+<div class="cookie-container">
+  <p>
+    We use cookies in this website to give you the best experience on our
+    site and show you relevant ads. To find out more, read our
+    <a href="#">privacy policy</a> and <a href="#">cookie policy</a>.
+  </p>
+
+  <button class="cookie-btn">
+    Accept
+  </button>
+
+</div>
+<script>
+  const cookieStorage = {
+        getItem: (key) => {
+            const cookies = document.cookie
+            .split(';')
+            .map(cookie => cookie.split('='))
+            .reduce((acc, [key,value]) => ({...acc, [key.trim()]:value}), {})
+            return cookies[key];
+        },
+        setItem: (key,value) => {
+            document.cookie = `${key}=${value}`
+        }
+    }
+    const storageType = cookieStorage;
+
+const cookieContainer = document.querySelector(".cookie-container");
+const cookieButton = document.querySelector(".cookie-btn");
+
+cookieButton.addEventListener("click", () => { 
+  cookieContainer.classList.remove("active");
+  storageType.setItem("cookieBannerDisplayed", "true");
+  document.getElementById("registerBtn").disabled = false; 
+  document.getElementById("loginBtn").disabled = false; 
+});
+
+setTimeout(() => {
+  if (!storageType.getItem("cookieBannerDisplayed")) {
+    cookieContainer.classList.add("active");
+  }
+}, 2000);
+
+</script>
+</html>
